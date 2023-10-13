@@ -3,6 +3,10 @@ import "react-native-gesture-handler";
 import React from "react";
 import { StatusBar, useColorScheme, LogBox } from "react-native";
 import SplashScreen from "react-native-splash-screen";
+import * as eva from "@eva-design/eva";
+import { ApplicationProvider } from "@ui-kitten/components";
+import { NativeBaseProvider } from "native-base";
+
 /**
  * ? Local Imports
  */
@@ -34,7 +38,11 @@ const App = () => {
 
   return (
     <ApolloProvider client={client}>
-      <Navigation />
+      <ApplicationProvider {...eva} theme={eva.light}>
+        <NativeBaseProvider>
+          <Navigation />
+        </NativeBaseProvider>
+      </ApplicationProvider>
     </ApolloProvider>
   );
 };

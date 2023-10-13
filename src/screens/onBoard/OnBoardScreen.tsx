@@ -7,7 +7,8 @@ import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { ButtonWrapper } from "@shared-components/button-wrapper/ButtonWrapper";
 import { Toggle } from "@ui-kitten/components";
 import createStyles from "./OnBoardScreen.style";
-import { COLORS } from "@shared-constants";
+import { COLORS, SCREENS } from "@shared-constants";
+import { handleNavigate } from "utils";
 
 const OnBoardScreen = () => {
   const styles = React.useMemo(() => createStyles(), []);
@@ -53,8 +54,15 @@ const OnBoardScreen = () => {
             gap: 10,
           }}
         >
-          <ButtonWrapper secondPrimary>Yes, notifi me</ButtonWrapper>
-          <ButtonWrapper tertiary>Skip</ButtonWrapper>
+          <ButtonWrapper
+            secondPrimary
+            onPress={() => handleNavigate(SCREENS.AUTH)}
+          >
+            Yes, notifi me
+          </ButtonWrapper>
+          <ButtonWrapper tertiary onPress={() => handleNavigate(SCREENS.AUTH)}>
+            Skip
+          </ButtonWrapper>
         </View>
       </SafeAreaView>
     </RootLayout>

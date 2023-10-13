@@ -3,7 +3,7 @@
 import React, { useMemo } from "react";
 import RootLayout from "layouts/rootLayout";
 import createStyles from "./ExploreScreen.style";
-import { SafeAreaView, ScrollView, View } from "react-native";
+import { Pressable, SafeAreaView, ScrollView, View } from "react-native";
 import TextWrapper from "@shared-components/text-wrapper/TextWrapper";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
@@ -18,9 +18,12 @@ import {
   faDumbbell,
 } from "@fortawesome/free-solid-svg-icons";
 import { ButtonWrapper } from "@shared-components/button-wrapper/ButtonWrapper";
-import { COLORS } from "@shared-constants";
+import { COLORS, SCREENS } from "@shared-constants";
 import CardWrapper from "@shared-components/card-wrapper/CardWrapper";
 import { cards } from "./mocks/data";
+import { handleNavigate } from "utils";
+import { useQuery } from "@apollo/client";
+import { GET_ROOMS } from "graphql/query/GetRooms";
 
 /**
  * ? Local Imports
@@ -97,6 +100,15 @@ const renderScrollViewNavigation = () => {
 };
 
 const ExploreScreen: React.FC<ExploreScreenProps> = () => {
+  const { loading, error, data } = useQuery(GET_ROOMS, {
+    variables: {
+      page_size: 1,
+      page_number: 10,
+    },
+  });
+  if (data) {
+    console.log(data.getRooms);
+  }
   const styles = useMemo(() => createStyles(), []);
 
   return (
@@ -152,7 +164,12 @@ const ExploreScreen: React.FC<ExploreScreenProps> = () => {
 
         <ScrollView>
           {cards.map((card, i) => (
-            <CardWrapper {...card} key={i} />
+            <Pressable
+              onPress={() => handleNavigate(SCREENS.EXPLORE_DETAIL)}
+              key={i}
+            >
+              <CardWrapper {...card} />
+            </Pressable>
           ))}
         </ScrollView>
       </SafeAreaView>

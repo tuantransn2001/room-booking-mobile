@@ -7,6 +7,7 @@ import { COLORS } from "@shared-constants";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import LoadingIndicator from "@shared-components/loading-wrapper/LoadingWrapper";
+import { Appearance } from "./enum/style.enum";
 interface ButtonWrapperProps extends PropsWithChildren {
   primary?: boolean;
   ghost?: boolean;
@@ -82,6 +83,7 @@ export const ButtonWrapper = ({
       status="success"
       onPress={onPress}
       accessoryLeft={renderStartIcon()}
+      appearance={Appearance.filled}
       size="medium"
       style={{ ...styles.common, ...style }}
     >

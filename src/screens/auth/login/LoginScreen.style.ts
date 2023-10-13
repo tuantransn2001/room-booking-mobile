@@ -12,7 +12,12 @@ interface Style {
 export default (theme: ExtendedTheme) => {
   const { colors } = theme;
   return StyleSheet.create<Style>({
-    container: {},
+    container: {
+      flex: 1,
+      marginHorizontal: 30,
+      justifyContent: "center",
+      alignItems: "center",
+    },
     titleTextStyle: {
       fontSize: 32,
     },

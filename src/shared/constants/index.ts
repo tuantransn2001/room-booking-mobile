@@ -1,10 +1,15 @@
 // ? Screens
 export const SCREENS = {
+  HOME: "Home",
   EXPLORE: "Explore",
+  EXPLORE_DETAIL: "ExploreDetail",
   WISHLISTS: "Wishlists",
   TRIPS: "Trips",
   INBOX: "Inbox",
   PROFILE: "Profile",
+  ON_BOARD: "OnBoard",
+  AUTH: "Auth",
+  REGISTER: "Register",
 };
 
 export const SIZES = {

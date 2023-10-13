@@ -15,8 +15,11 @@ import SearchScreen from "@screens/search/SearchScreen";
 import DetailScreen from "@screens/detail/DetailScreen";
 import ProfileScreen from "@screens/profile/ProfileScreen";
 import NotificationScreen from "@screens/notification/NotificationScreen";
+import OnBoardScreen from "@screens/onBoard/OnBoardScreen";
+import AuthScreen from "@screens/auth/AuthScreen";
+import ExploreScreen from "@screens/explore/ExploreScreen";
 import ExploreRoomDetailDetailScreen from "@screens/explore/detail/ExploreRoomDetailScreen";
-
+import RegisterScreen from "@screens/auth/register/RegisterScreen";
 // ? If you want to use stack or tab or both
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -81,9 +84,8 @@ const Navigation = () => {
           name={SCREENS.EXPLORE}
           component={
             // LoginScreen
-            // ExploreScreen
-            // OnBoardScreen
-            ExploreRoomDetailDetailScreen
+            RegisterScreen
+            // ExploreRoomDetailDetailScreen
           }
         />
         <Tab.Screen name={SCREENS.WISHLISTS} component={SearchScreen} />
@@ -102,7 +104,15 @@ const Navigation = () => {
       theme={isDarkMode ? DarkTheme : LightTheme}
     >
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name={SCREENS.EXPLORE} component={TabNavigation} />
+        <Stack.Screen name={SCREENS.HOME} component={TabNavigation} />
+        <Stack.Screen name={SCREENS.ON_BOARD} component={OnBoardScreen} />
+        <Stack.Screen name={SCREENS.AUTH} component={AuthScreen} />
+        <Stack.Screen name={SCREENS.EXPLORE} component={ExploreScreen} />
+        <Stack.Screen name={SCREENS.REGISTER} component={RegisterScreen} />
+        <Stack.Screen
+          name={SCREENS.EXPLORE_DETAIL}
+          component={ExploreRoomDetailDetailScreen}
+        />
         <Stack.Screen name={SCREENS.PROFILE}>
           {(props) => <DetailScreen {...props} />}
         </Stack.Screen>
@@ -110,5 +120,4 @@ const Navigation = () => {
     </NavigationContainer>
   );
 };
-
 export default Navigation;
