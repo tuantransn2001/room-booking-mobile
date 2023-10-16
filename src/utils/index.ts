@@ -1,9 +1,9 @@
 /* eslint-disable camelcase */
 import * as NavigationServices from "react-navigation-helpers";
 
-export const handleNavigate = (href: string) => {
+export const handleNavigate = (href: string, params?: Record<string, any>) => {
   if (!href) return;
-  NavigationServices.push(href);
+  NavigationServices.push(href, params);
 };
 
 export const capitalizeFirstLetter = (str: string) => {

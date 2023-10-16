@@ -11,6 +11,7 @@ interface Style {
   textDefault: ViewStyle;
   secondPrimary: ViewStyle;
   ghost: ViewStyle;
+  link: ViewStyle;
 }
 export default () =>
   StyleSheet.create<Style>({
@@ -39,6 +40,9 @@ export default () =>
       backgroundColor: COLORS.DISABLE,
       borderWidth: 1,
       borderColor: COLORS.BLACK,
+    },
+    link: {
+      backgroundColor: "transparent",
     },
     loading: {
       backgroundColor: COLORS.DISABLE,

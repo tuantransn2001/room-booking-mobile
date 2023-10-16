@@ -19,7 +19,8 @@ import OnBoardScreen from "@screens/onBoard/OnBoardScreen";
 import AuthScreen from "@screens/auth/AuthScreen";
 import ExploreScreen from "@screens/explore/ExploreScreen";
 import ExploreRoomDetailDetailScreen from "@screens/explore/detail/ExploreRoomDetailScreen";
-import RegisterScreen from "@screens/auth/register/RegisterScreen";
+import ErrorScreen from "@screens/error/ErrorScreen";
+import BookingScreen from "@screens/booking/BookingScreen";
 // ? If you want to use stack or tab or both
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -83,9 +84,8 @@ const Navigation = () => {
         <Tab.Screen
           name={SCREENS.EXPLORE}
           component={
-            // LoginScreen
-            RegisterScreen
-            // ExploreRoomDetailDetailScreen
+            AuthScreen
+            // ExploreScreen
           }
         />
         <Tab.Screen name={SCREENS.WISHLISTS} component={SearchScreen} />
@@ -108,7 +108,11 @@ const Navigation = () => {
         <Stack.Screen name={SCREENS.ON_BOARD} component={OnBoardScreen} />
         <Stack.Screen name={SCREENS.AUTH} component={AuthScreen} />
         <Stack.Screen name={SCREENS.EXPLORE} component={ExploreScreen} />
-        <Stack.Screen name={SCREENS.REGISTER} component={RegisterScreen} />
+        <Stack.Screen
+          name={SCREENS.ERROR}
+          component={() => <ErrorScreen statusCode={500} />}
+        />
+        <Stack.Screen name={SCREENS.BOOKING} component={BookingScreen} />
         <Stack.Screen
           name={SCREENS.EXPLORE_DETAIL}
           component={ExploreRoomDetailDetailScreen}

@@ -66,6 +66,7 @@ const wsLink = new WebSocketLink({
 });
 
 const errorLink = onError(({ graphQLErrors, operation, forward }) => {
+  console.log({ graphQLErrors, operation });
   if (graphQLErrors)
     for (const err of graphQLErrors as GraphQLErrors) {
       if (err.extensions.code === "UNAUTHENTICATED" && retryCount < maxRetry) {
@@ -73,7 +74,6 @@ const errorLink = onError(({ graphQLErrors, operation, forward }) => {
         return new Observable((observer) => {
           refreshToken(client)
             .then((token) => {
-              console.log("token", token);
               operation.setContext((previousContext: any) => ({
                 headers: {
                   ...previousContext.headers,

@@ -4,6 +4,7 @@ import { User } from "../gql/graphql";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface UserState {
+  isLoginSuccess?: boolean;
   id: number | undefined;
   avatarUrl: string | null;
   fullname: string;
@@ -37,3 +38,6 @@ export const useUserStore = create<UserState>()(
     },
   ),
 );
+
+export const isLoginSuccessSelector = (state: UserState) =>
+  state.isLoginSuccess;

@@ -4,13 +4,12 @@ import Logo from "assets/logo/logo";
 import { View } from "react-native";
 import * as NavigationService from "react-navigation-helpers";
 import { SCREENS } from "@shared-constants";
-interface LaunchScreenProps {}
 
 const autoSwitchToAuthDelay = setTimeout(() => {
   NavigationService.push(SCREENS.ON_BOARD);
 }, 5000);
 
-const LaunchScreen: React.FC<LaunchScreenProps> = () => {
+const LaunchScreen = () => {
   React.useEffect(() => {
     autoSwitchToAuthDelay;
     () => clearTimeout(autoSwitchToAuthDelay);
