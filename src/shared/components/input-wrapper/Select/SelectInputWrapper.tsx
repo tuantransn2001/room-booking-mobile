@@ -8,7 +8,7 @@ const SelectInputWrapper = (props: InputProps) => {
 
   const renderOptions = () =>
     props.options?.map(({ label, value }, i) => {
-      return <Select.Item label={label} value={value} key={i}></Select.Item>;
+      return <Select.Item label={label} value={value} key={i} />;
     });
 
   return (

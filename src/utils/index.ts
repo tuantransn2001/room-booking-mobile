@@ -6,6 +6,11 @@ export const handleNavigate = (href: string, params?: Record<string, any>) => {
   NavigationServices.push(href, params);
 };
 
+export const goBack = () => {
+  console.log("back");
+  NavigationServices.goBack();
+};
+
 export const capitalizeFirstLetter = (str: string) => {
   return str && str.length ? str.charAt(0).toUpperCase() + str.slice(1) : str;
 };
@@ -19,4 +24,15 @@ export const extractToken = (tokens: string) => {
   const [access_token] = tokens.split(" ");
 
   return { token_type: "Bearer", access_token };
+};
+
+export const handleCalcRangeBetweenTwoDate = (
+  startDate: Date,
+  endDate: Date,
+) => {
+  const timeDifference = endDate.getTime() - startDate.getTime();
+
+  const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+
+  return daysDifference;
 };

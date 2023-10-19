@@ -13,6 +13,7 @@ interface ButtonWrapperProps extends PropsWithChildren {
   link?: boolean;
   ghost?: boolean;
   loading?: boolean;
+  disabled?: boolean;
   tertiary?: boolean;
   maxWidth?: boolean;
   secondPrimary?: boolean;
@@ -25,6 +26,7 @@ interface ButtonWrapperProps extends PropsWithChildren {
 
 export const ButtonWrapper = ({
   ghost,
+  disabled,
   primary,
   secondPrimary,
   tertiary,
@@ -80,6 +82,12 @@ export const ButtonWrapper = ({
     textColor = COLORS.BLACK;
   }
 
+  // ? Disabled
+  if (disabled) {
+    styles.common = { ...styles.common, ...styles.disabled };
+    textColor = COLORS.WHITE;
+  }
+
   const renderStartIcon = () => {
     if (loading) return <LoadingIndicator />;
     if (StartIcon)
@@ -94,6 +102,7 @@ export const ButtonWrapper = ({
     <Button
       status="success"
       onPress={onPress}
+      disabled={disabled}
       accessoryLeft={renderStartIcon()}
       appearance={Appearance.filled}
       size="medium"

@@ -41,3 +41,4 @@ export const useUserStore = create<UserState>()(
 
 export const isLoginSuccessSelector = (state: UserState) =>
   state.isLoginSuccess;
+export const userIdSelector = (state: UserState) => state.id;

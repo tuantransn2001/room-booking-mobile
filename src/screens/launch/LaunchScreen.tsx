@@ -1,31 +1,46 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable import/extensions */
 import React from "react";
 import Logo from "assets/logo/logo";
 import { View } from "react-native";
-import * as NavigationService from "react-navigation-helpers";
 import { SCREENS } from "@shared-constants";
-
-const autoSwitchToAuthDelay = setTimeout(() => {
-  NavigationService.push(SCREENS.ON_BOARD);
-}, 5000);
+import { Box, Center, VStack, Progress } from "native-base";
+import createStyles from "./LaunchScreen.style";
+import { handleNavigate } from "utils";
 
 const LaunchScreen = () => {
+  const styles = React.useMemo(() => createStyles(), []);
+  const [percent, setPercent] = React.useState<number>(0);
+
+  const animate = React.useCallback(() => {
+    const intervalId = setInterval(() => {
+      setPercent((prev) => {
+        if (prev >= 100) {
+          clearInterval(intervalId);
+          handleNavigate(SCREENS.ON_BOARD);
+          return prev;
+        }
+        return (prev += 1);
+      });
+    }, 30);
+  }, [percent]);
+
   React.useEffect(() => {
-    autoSwitchToAuthDelay;
-    () => clearTimeout(autoSwitchToAuthDelay);
+    animate();
   }, []);
 
   return (
-    <View
-      style={{
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
+    <View style={styles.container}>
       <Logo />
+      <Center w="100%">
+        <Box w="70%" maxW="400">
+          <VStack space="md">
+            <VStack mx="4" space="md">
+              <Progress colorScheme="secondary" value={percent} />
+            </VStack>
+          </VStack>
+        </Box>
+      </Center>
     </View>
   );
 };

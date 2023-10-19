@@ -5,6 +5,7 @@ interface Style {
   container: ViewStyle;
   common: ViewStyle;
   loading: ViewStyle;
+  disabled: ViewStyle;
   primary: ViewStyle;
   tertiary: ViewStyle;
   fullWidth: ViewStyle;
@@ -21,6 +22,7 @@ export default () =>
     },
     common: {
       display: "flex",
+      flexDirection: "row",
       justifyContent: "center",
       alignItems: "center",
       borderRadius: 8,
@@ -32,6 +34,9 @@ export default () =>
     },
     primary: {
       backgroundColor: COLORS.PRIMARY,
+    },
+    disabled: {
+      backgroundColor: COLORS.DISABLE,
     },
     secondPrimary: {
       backgroundColor: COLORS.BLACK,

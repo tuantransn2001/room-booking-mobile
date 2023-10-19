@@ -9,12 +9,15 @@ import CardWrapper from "@shared-components/card-wrapper/CardWrapper";
 import { cards } from "../mocks/data";
 import TextWrapper from "@shared-components/text-wrapper/TextWrapper";
 import { ButtonWrapper } from "@shared-components/button-wrapper/ButtonWrapper";
-import { COLORS } from "@shared-constants";
+import { COLORS, SCREENS } from "@shared-constants";
 import Svg, { Path } from "react-native-svg";
 import { NavigationRouteProps } from "shared/type/common";
 import { useQuery } from "@apollo/client";
 import { GET_HOTEL_BY_ID } from "graphql/query/GetHotelbyId";
 import { ICardWrapper } from "@shared-components/card-wrapper/shared/CardWrapper.interface";
+import { handleNavigate } from "utils";
+import FooterWithContentWrapper from "@shared-components/footer-with-content-wrapper/FooterWithContentWrapper";
+import { Direction } from "@shared-components/footer-with-content-wrapper/enums/enum";
 interface ExploreRoomDetailDetailScreenProps
   extends NavigationRouteProps<ExploreRoomDetailDetailScreenProps> {
   id?: number;
@@ -24,11 +27,14 @@ const ExploreRoomDetailDetailScreen = (
   props: ExploreRoomDetailDetailScreenProps,
 ) => {
   const { data, loading } = useQuery(GET_HOTEL_BY_ID, {
-    variables: { id: props.route.params.id },
+    variables: { id: props.route && props.route.params.id },
   });
 
   const styles = React.useMemo(() => createStyles(), []);
-  const handleBookRoom = () => "booking...";
+  const handleBookRoom = () =>
+    handleNavigate(SCREENS.BOOKING, {
+      id: props.route && props.route.params.id,
+    });
 
   if (loading) return <TextWrapper>Loading</TextWrapper>;
 
@@ -47,6 +53,7 @@ const ExploreRoomDetailDetailScreen = (
         <View
           style={{
             flex: 1,
+            marginHorizontal: 20,
           }}
         >
           <CardWrapper {...hotelData} />
@@ -55,6 +62,7 @@ const ExploreRoomDetailDetailScreen = (
         <View
           style={{
             flex: 1,
+            marginHorizontal: 20,
           }}
         >
           <View
@@ -92,18 +100,7 @@ const ExploreRoomDetailDetailScreen = (
           </View>
         </View>
 
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginHorizontal: -20,
-            borderTopWidth: 1,
-            borderColor: COLORS.DISABLE,
-            paddingHorizontal: 20,
-            paddingVertical: 10,
-          }}
-        >
+        <FooterWithContentWrapper direction={Direction.row}>
           <View>
             <TextWrapper>$ 45 night</TextWrapper>
             <TextWrapper>Feb 10-12</TextWrapper>
@@ -111,7 +108,7 @@ const ExploreRoomDetailDetailScreen = (
           <ButtonWrapper onPress={handleBookRoom} primary>
             Reserve
           </ButtonWrapper>
-        </View>
+        </FooterWithContentWrapper>
       </SafeAreaView>
     </RootLayout>
   );

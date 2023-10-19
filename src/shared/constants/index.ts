@@ -12,6 +12,7 @@ export const SCREENS = {
   REGISTER: "Register",
   ERROR: "Error",
   BOOKING: "Booking",
+  TRIP: "Trip",
 };
 
 export const SIZES = {

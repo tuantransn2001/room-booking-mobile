@@ -1,9 +1,11 @@
 /* eslint-disable max-len */
+import { ButtonWrapper } from "@shared-components/button-wrapper/ButtonWrapper";
 import TextWrapper from "@shared-components/text-wrapper/TextWrapper";
+import { SCREENS } from "@shared-constants";
 import React from "react";
 import { View } from "react-native";
 import Svg, { Circle, Path, Ellipse, Rect } from "react-native-svg";
-
+import { goBack, handleNavigate } from "utils";
 interface ErrorScreenProps {
   statusCode: number;
 }
@@ -209,6 +211,15 @@ const ErrorScreen = ({ statusCode }: ErrorScreenProps) => {
         });
         break;
       }
+      case 400: {
+        setDataError({
+          title: "BAD REQUEST",
+          text: "You do not have permission to access this page, please contact the Website administrator for more information",
+          image: <ServerError />,
+          width: "65%",
+        });
+        break;
+      }
       case 403: {
         setDataError({
           title: "ACCESS IS LIMITED",
@@ -238,27 +249,47 @@ const ErrorScreen = ({ statusCode }: ErrorScreenProps) => {
     }
   }, [statusCode]);
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      {dataError.image}
+    <>
       <View
         style={{
-          marginHorizontal: 30,
-          flexDirection: "column",
-          gap: 12,
+          flex: 1,
           justifyContent: "center",
           alignItems: "center",
         }}
       >
-        <TextWrapper center>{dataError.title}</TextWrapper>
-        <TextWrapper center>{dataError.text}</TextWrapper>
+        {dataError.image}
+        <View
+          style={{
+            marginHorizontal: 30,
+            flexDirection: "column",
+            gap: 12,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <TextWrapper center>{dataError.title}</TextWrapper>
+          <TextWrapper center>{dataError.text}</TextWrapper>
+        </View>
       </View>
-    </View>
+      <View
+        style={{
+          // display: "none"
+          marginTop: 20,
+          position: "absolute",
+          top: "74%",
+          width: "100%",
+          paddingHorizontal: 40,
+        }}
+      >
+        <ButtonWrapper
+          maxWidth
+          primary
+          onPress={() => handleNavigate(SCREENS.EXPLORE)}
+        >
+          Try Again
+        </ButtonWrapper>
+      </View>
+    </>
   );
 };
 export default ErrorScreen;

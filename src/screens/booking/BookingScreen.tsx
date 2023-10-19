@@ -1,4 +1,5 @@
-import React, { PropsWithChildren } from "react";
+/* eslint-disable react/prop-types */
+import React from "react";
 import { faAngleLeft, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import TextWrapper from "@shared-components/text-wrapper/TextWrapper";
@@ -7,30 +8,111 @@ import { Image, Pressable, SafeAreaView, ScrollView, View } from "react-native";
 import { Layout, ViewPager } from "@ui-kitten/components";
 import { cards } from "@screens/explore/mocks/data";
 import { ButtonWrapper } from "@shared-components/button-wrapper/ButtonWrapper";
-import { COLORS } from "@shared-constants";
-import { Radio } from "native-base";
+import { COLORS, SCREENS } from "@shared-constants";
+import { Radio, Select } from "native-base";
+import DatePickerWrapper from "@shared-components/date-picker-wrapper/DatePickerWrapper";
+import ActionSheetWrapper from "@shared-components/action-sheet-wrapper/ActionSheetWrapper";
+import { useQuery } from "@apollo/client";
+import { GET_HOTEL_BY_ID } from "graphql/query/GetHotelbyId";
+import { NavigationRouteProps } from "shared/type/common";
+import { handleCalcRangeBetweenTwoDate, handleNavigate } from "utils";
+import Confirm from "./confirm/Confirm";
+import Section from "./section/Section";
 
-interface SectionProps extends PropsWithChildren {
-  title: string;
+interface BookingScreenProps extends NavigationRouteProps<BookingScreenProps> {
+  id?: number;
 }
 
-const Section = ({ title, children }: SectionProps) => {
-  const styles = React.useMemo(() => createStyle(), []);
-  return (
-    <View style={styles.section}>
-      <TextWrapper bold h4>
-        {title}
-      </TextWrapper>
-      {children}
-    </View>
-  );
-};
-
-const BookingScreen = () => {
+const BookingScreen = (props: BookingScreenProps) => {
   const [value, setValue] = React.useState<string>("");
+  const [visible, setVisible] = React.useState<boolean>(false);
+  const [room, pickRoom] = React.useState<number>(1);
+  const [people, pickPeople] = React.useState<number>(1);
+  const [checkIn, pickCheckIn] = React.useState<Date>(new Date());
+  const [checkOut, pickCheckOut] = React.useState<Date>(new Date());
   const styles = React.useMemo(() => createStyle(), []);
+
+  if (!props.route?.params) {
+    handleNavigate(SCREENS.ERROR, {
+      statusCode: 500,
+    });
+  }
+
+  const handleToggleVisible = () => setVisible(!visible);
+  const onClose = () => setVisible(!visible);
+
+  const { data, loading } = useQuery(GET_HOTEL_BY_ID, {
+    variables: { id: props.route?.params.id },
+  });
+
+  if (loading || !data) return <TextWrapper>Loading</TextWrapper>;
+
   return (
     <SafeAreaView style={styles.container}>
+      <ActionSheetWrapper title="date" visible={visible} onClose={onClose}>
+        <View style={{ flexDirection: "column", gap: 16 }}>
+          <View style={{ flexDirection: "row", gap: 16 }}>
+            <DatePickerWrapper
+              date={checkIn}
+              setDate={pickCheckIn}
+              title="Check in"
+            />
+            <DatePickerWrapper
+              date={checkOut}
+              setDate={pickCheckOut}
+              title="Check out"
+            />
+          </View>
+          <View style={{ width: "100%" }}>
+            <TextWrapper h5 bold>
+              People
+            </TextWrapper>
+            <Select
+              selectedValue={people.toString()}
+              minWidth={200}
+              minHeight={10}
+              accessibilityLabel="People"
+              placeholder="1"
+              onValueChange={(itemValue) => pickPeople(+itemValue)}
+              mt={1}
+            >
+              <Select.Item label="1" value="1" />
+              <Select.Item label="2" value="2" />
+              <Select.Item label="4" value="4" />
+            </Select>
+          </View>
+          <View style={{ width: "100%" }}>
+            <TextWrapper h5 bold>
+              People
+            </TextWrapper>
+            <Select
+              selectedValue={people.toString()}
+              minWidth={200}
+              minHeight={10}
+              accessibilityLabel="Room"
+              placeholder={data.getHotelById.rooms[0].roomName ?? ""}
+              onValueChange={(itemValue) => pickRoom(+itemValue)}
+              mt={1}
+            >
+              {data.getHotelById.rooms.map(
+                ({
+                  currentPrice,
+                  roomName,
+                  id,
+                }: {
+                  [key: string]: string | number;
+                }) => (
+                  <Select.Item
+                    label={`${roomName} - ${currentPrice} $/night` as string}
+                    value={id.toString()}
+                    key={id}
+                  />
+                ),
+              )}
+            </Select>
+          </View>
+        </View>
+      </ActionSheetWrapper>
       <ScrollView>
         <View
           style={{
@@ -106,8 +188,18 @@ const BookingScreen = () => {
               justifyContent: "space-between",
             }}
           >
-            <TextWrapper h4>Dates {"\n"}10-12</TextWrapper>
-            <ButtonWrapper link>Edit</ButtonWrapper>
+            <TextWrapper h4>
+              Dates {"\n"}
+              {handleCalcRangeBetweenTwoDate(checkIn, checkOut) <= 1
+                ? 1
+                : handleCalcRangeBetweenTwoDate(checkIn, checkOut) +
+                  ` (${new Date(checkIn).getDate()} - ${new Date(
+                    checkIn,
+                  ).getDate()})`}
+            </TextWrapper>
+            <ButtonWrapper onPress={handleToggleVisible} link>
+              Edit
+            </ButtonWrapper>
           </View>
           <View
             style={{
@@ -115,8 +207,12 @@ const BookingScreen = () => {
               justifyContent: "space-between",
             }}
           >
-            <TextWrapper h4>Guests{"\n"}4</TextWrapper>
-            <ButtonWrapper link>Edit</ButtonWrapper>
+            <TextWrapper h4>
+              Guests{"\n"} {people}
+            </TextWrapper>
+            <ButtonWrapper onPress={handleToggleVisible} link>
+              Edit
+            </ButtonWrapper>
           </View>
         </Section>
 
@@ -215,26 +311,12 @@ const BookingScreen = () => {
           </View>
         </Section>
       </ScrollView>
-      <View
-        style={{
-          borderTopRightRadius: 16,
-          borderTopLeftRadius: 16,
-          backgroundColor: COLORS.WHITE,
-          borderWidth: 1,
-          borderColor: COLORS.DISABLE,
-          padding: 20,
-          flexDirection: "column",
-          gap: 12,
-        }}
-      >
-        <TextWrapper h6 left>
-          By selecting the button below, I agree to the
-          <TextWrapper bold> Host's House Rules</TextWrapper>, Ground rules for
-          guests, Airbnb's Re-booking and Refund Policy, and that Airbnb can
-          charge my payment method if I’m responsible for damage.
-        </TextWrapper>
-        <ButtonWrapper primary>Confirm and pay</ButtonWrapper>
-      </View>
+      <Confirm
+        people={people}
+        checkIn={checkIn}
+        checkOut={checkOut}
+        room={room}
+      />
     </SafeAreaView>
   );
 };

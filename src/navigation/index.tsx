@@ -21,6 +21,8 @@ import ExploreScreen from "@screens/explore/ExploreScreen";
 import ExploreRoomDetailDetailScreen from "@screens/explore/detail/ExploreRoomDetailScreen";
 import ErrorScreen from "@screens/error/ErrorScreen";
 import BookingScreen from "@screens/booking/BookingScreen";
+import LaunchScreen from "@screens/launch/LaunchScreen";
+import StripScreen from "@screens/trip/TripScreen";
 // ? If you want to use stack or tab or both
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -53,6 +55,9 @@ const Navigation = () => {
       case SCREENS.PROFILE:
         iconName = focused ? "person" : "person-outline";
         break;
+      case SCREENS.TRIP:
+        iconName = focused ? "home" : "home-outline";
+        break;
       default:
         iconName = focused ? "home" : "home-outline";
         break;
@@ -84,10 +89,12 @@ const Navigation = () => {
         <Tab.Screen
           name={SCREENS.EXPLORE}
           component={
-            AuthScreen
-            // ExploreScreen
+            LaunchScreen
+            // BookingScreen
+            // () => <ErrorScreen statusCode={400} />
           }
         />
+        <Tab.Screen name={SCREENS.TRIP} component={StripScreen} />
         <Tab.Screen name={SCREENS.WISHLISTS} component={SearchScreen} />
         <Tab.Screen name={SCREENS.INBOX} component={NotificationScreen} />
         <Tab.Screen name={SCREENS.PROFILE} component={ProfileScreen} />
@@ -106,6 +113,7 @@ const Navigation = () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name={SCREENS.HOME} component={TabNavigation} />
         <Stack.Screen name={SCREENS.ON_BOARD} component={OnBoardScreen} />
+        <Stack.Screen name={SCREENS.TRIP} component={StripScreen} />
         <Stack.Screen name={SCREENS.AUTH} component={AuthScreen} />
         <Stack.Screen name={SCREENS.EXPLORE} component={ExploreScreen} />
         <Stack.Screen
