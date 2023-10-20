@@ -5,12 +5,14 @@ interface Style {
   container: ViewStyle;
   common: ViewStyle;
   loading: ViewStyle;
+  disabled: ViewStyle;
   primary: ViewStyle;
   tertiary: ViewStyle;
   fullWidth: ViewStyle;
   textDefault: ViewStyle;
   secondPrimary: ViewStyle;
   ghost: ViewStyle;
+  link: ViewStyle;
 }
 export default () =>
   StyleSheet.create<Style>({
@@ -20,6 +22,7 @@ export default () =>
     },
     common: {
       display: "flex",
+      flexDirection: "row",
       justifyContent: "center",
       alignItems: "center",
       borderRadius: 8,
@@ -32,6 +35,9 @@ export default () =>
     primary: {
       backgroundColor: COLORS.PRIMARY,
     },
+    disabled: {
+      backgroundColor: COLORS.DISABLE,
+    },
     secondPrimary: {
       backgroundColor: COLORS.BLACK,
     },
@@ -39,6 +45,9 @@ export default () =>
       backgroundColor: COLORS.DISABLE,
       borderWidth: 1,
       borderColor: COLORS.BLACK,
+    },
+    link: {
+      backgroundColor: "transparent",
     },
     loading: {
       backgroundColor: COLORS.DISABLE,

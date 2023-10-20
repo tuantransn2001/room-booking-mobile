@@ -53,6 +53,16 @@ export type LoginResponse = {
   user: User;
 };
 
+export type ReservationResponse = {
+  __typename: string;
+  additional_requests: string;
+  checkin_date: string;
+  checkout_date: string;
+  guest_email: string;
+  guest_name: string;
+  room_type: string;
+};
+
 export type Message = {
   __typename?: "Message";
   chatroom?: Maybe<Chatroom>;

@@ -1,22 +1,15 @@
 /* eslint-disable import/extensions */
 import React, { PropsWithChildren } from "react";
 import createStyles from "./CardWrapper.style";
-import { Image, ImageSourcePropType, View } from "react-native";
+import { Image, View } from "react-native";
 import { Layout, ViewPager } from "@ui-kitten/components";
-
 import ContentLoader, { Rect, Circle } from "react-content-loader/native";
 import TextWrapper from "@shared-components/text-wrapper/TextWrapper";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
-interface CardWrapperProps extends PropsWithChildren {
-  loading: boolean;
-  sliders: ImageSourcePropType[];
-  rateNumber: number;
-  body: {
-    title: string;
-    contents: string[];
-  };
-}
+import { ICardWrapper } from "./shared/CardWrapper.interface";
+
+interface CardWrapperProps extends ICardWrapper, PropsWithChildren {}
 
 const CardLoader = () => (
   <ContentLoader

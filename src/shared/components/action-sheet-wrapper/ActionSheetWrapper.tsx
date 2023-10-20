@@ -5,11 +5,12 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { Pressable, View } from "react-native";
 import { COLORS } from "@shared-constants";
 import TextWrapper from "@shared-components/text-wrapper/TextWrapper";
+import { CallBackFunction } from "shared/type/common";
 
 interface ActionSheetWrapper extends PropsWithChildren {
   title?: string;
   visible?: boolean;
-  onClose?: () => void;
+  onClose?: CallBackFunction;
 }
 
 const ActionSheetWrapper = ({
@@ -26,7 +27,8 @@ const ActionSheetWrapper = ({
         size="full"
         style={{
           width: "100%",
-          paddingBottom: 0,
+
+          paddingBottom: 20,
           zIndex: 999,
         }}
       >
@@ -35,17 +37,15 @@ const ActionSheetWrapper = ({
             <View
               style={{
                 position: "relative",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
               }}
             >
-              <Pressable
-                style={{
-                  position: "absolute",
-                }}
-                onPress={onClose}
-              >
+              <Pressable onPress={onClose}>
                 <FontAwesomeIcon icon={faXmark} />
               </Pressable>
-              <TextWrapper h4 center bold color={COLORS.BLACK}>
+              <TextWrapper h4 bold color={COLORS.BLACK}>
                 {title}
               </TextWrapper>
             </View>

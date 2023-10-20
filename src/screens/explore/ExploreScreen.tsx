@@ -23,7 +23,9 @@ import CardWrapper from "@shared-components/card-wrapper/CardWrapper";
 import { cards } from "./mocks/data";
 import { handleNavigate } from "utils";
 import { useQuery } from "@apollo/client";
-import { GET_ROOMS } from "graphql/query/GetRooms";
+import { GET_CATEGORIES } from "graphql/query/GetCategories";
+import { GET_HOTELS } from "graphql/query/GetHotels";
+import { ICardWrapper } from "@shared-components/card-wrapper/shared/CardWrapper.interface";
 
 /**
  * ? Local Imports
@@ -31,36 +33,17 @@ import { GET_ROOMS } from "graphql/query/GetRooms";
 
 interface ExploreScreenProps {}
 
-const renderScrollViewNavigation = () => {
+const renderScrollViewNavigation = (
+  categories: { [key: string]: string | number }[],
+) => {
   const navigations = [
-    {
-      icon: faRestroom,
-      content: "Room",
-    },
-    {
-      icon: faUmbrellaBeach,
-      content: "Beaches",
-    },
-    {
-      icon: faHouse,
-      content: "Tiny Home",
-    },
-    {
-      icon: faGolfBallTee,
-      content: "Goft",
-    },
-    {
-      icon: faCompass,
-      content: "Amazing",
-    },
-    {
-      icon: faTree,
-      content: "Pen house",
-    },
-    {
-      icon: faDumbbell,
-      content: "Gym",
-    },
+    faRestroom,
+    faUmbrellaBeach,
+    faHouse,
+    faGolfBallTee,
+    faCompass,
+    faTree,
+    faDumbbell,
   ];
   return (
     <ScrollView
@@ -71,7 +54,7 @@ const renderScrollViewNavigation = () => {
       }}
       horizontal
     >
-      {navigations.map(({ icon, content }, index) => {
+      {categories.map(({ id, categoryName }, index: number) => {
         return (
           <View
             style={{
@@ -81,16 +64,20 @@ const renderScrollViewNavigation = () => {
               alignItems: "center",
               marginRight: 24,
             }}
-            key={index}
+            key={id}
           >
-            <FontAwesomeIcon size={20} icon={icon} color={COLORS.BLACK} />
+            <FontAwesomeIcon
+              size={20}
+              icon={navigations[id as number]}
+              color={COLORS.BLACK}
+            />
             <TextWrapper
               h6
               h5={index === 0}
               bold={index === 0}
               color={COLORS.BLACK}
             >
-              {content}
+              {categoryName}
             </TextWrapper>
           </View>
         );
@@ -99,17 +86,44 @@ const renderScrollViewNavigation = () => {
   );
 };
 
+const Hotels = () => {
+  const { loading, data } = useQuery(GET_HOTELS);
+  if (loading || !data) return <TextWrapper>Loading</TextWrapper>;
+
+  const cardData: ICardWrapper[] = data.getHotels.map(
+    ({ id, hotelName }: { [key: string]: string | number }) => ({
+      id,
+      loading,
+      sliders: cards[0].sliders,
+      rateNumber: 4,
+      body: {
+        title: hotelName,
+        contents: cards[0].body.contents,
+      },
+    }),
+  );
+
+  return (
+    <ScrollView>
+      {cardData.map((card, i) => (
+        <Pressable
+          onPress={() =>
+            handleNavigate(SCREENS.EXPLORE_DETAIL, { id: card.id })
+          }
+          key={i}
+        >
+          <CardWrapper {...card} />
+        </Pressable>
+      ))}
+    </ScrollView>
+  );
+};
+
 const ExploreScreen: React.FC<ExploreScreenProps> = () => {
-  const { loading, error, data } = useQuery(GET_ROOMS, {
-    variables: {
-      page_size: 1,
-      page_number: 10,
-    },
-  });
-  if (data) {
-    console.log(data.getRooms);
-  }
   const styles = useMemo(() => createStyles(), []);
+  const { loading, data } = useQuery(GET_CATEGORIES);
+
+  if (loading || !data) return <TextWrapper>Loading</TextWrapper>;
 
   return (
     <RootLayout>
@@ -160,17 +174,10 @@ const ExploreScreen: React.FC<ExploreScreenProps> = () => {
           />
         </View>
         {/* Navigation */}
-        <View>{renderScrollViewNavigation()}</View>
+        <View>{renderScrollViewNavigation(data.getCategories)}</View>
 
         <ScrollView>
-          {cards.map((card, i) => (
-            <Pressable
-              onPress={() => handleNavigate(SCREENS.EXPLORE_DETAIL)}
-              key={i}
-            >
-              <CardWrapper {...card} />
-            </Pressable>
-          ))}
+          <Hotels />
         </ScrollView>
       </SafeAreaView>
     </RootLayout>

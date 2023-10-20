@@ -10,27 +10,35 @@ import LoadingIndicator from "@shared-components/loading-wrapper/LoadingWrapper"
 import { Appearance } from "./enum/style.enum";
 interface ButtonWrapperProps extends PropsWithChildren {
   primary?: boolean;
+  link?: boolean;
   ghost?: boolean;
   loading?: boolean;
+  disabled?: boolean;
   tertiary?: boolean;
   maxWidth?: boolean;
   secondPrimary?: boolean;
   style?: ViewStyle;
   StartIcon?: IconDefinition;
   onPress?: () => void;
+  onPressOut?: () => void;
+  [key: string]: any;
 }
 
 export const ButtonWrapper = ({
   ghost,
+  disabled,
   primary,
   secondPrimary,
   tertiary,
   maxWidth,
   StartIcon,
-  onPress,
   children,
   loading,
   style,
+  link,
+  onPress,
+  onPressOut,
+  ...rest
 }: ButtonWrapperProps) => {
   const styles = React.useMemo(() => createStyles(), []);
   let textColor = COLORS.WHITE;
@@ -56,8 +64,14 @@ export const ButtonWrapper = ({
       ...styles.common,
       ...styles.tertiary,
     };
-    styles.textDefault = {
-      ...styles.textDefault,
+
+    textColor = COLORS.BLACK;
+  }
+  // ? Link
+  if (link) {
+    styles.common = {
+      ...styles.common,
+      ...styles.link,
     };
     textColor = COLORS.BLACK;
   }
@@ -66,6 +80,12 @@ export const ButtonWrapper = ({
   if (ghost) {
     styles.common = { ...styles.common, ...styles.ghost };
     textColor = COLORS.BLACK;
+  }
+
+  // ? Disabled
+  if (disabled) {
+    styles.common = { ...styles.common, ...styles.disabled };
+    textColor = COLORS.WHITE;
   }
 
   const renderStartIcon = () => {
@@ -82,10 +102,13 @@ export const ButtonWrapper = ({
     <Button
       status="success"
       onPress={onPress}
+      disabled={disabled}
       accessoryLeft={renderStartIcon()}
       appearance={Appearance.filled}
       size="medium"
       style={{ ...styles.common, ...style }}
+      onPressOut={onPressOut}
+      {...rest}
     >
       {children ? (
         <TextWrapper color={textColor} style={styles.textDefault}>

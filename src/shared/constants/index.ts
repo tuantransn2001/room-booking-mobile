@@ -10,6 +10,9 @@ export const SCREENS = {
   ON_BOARD: "OnBoard",
   AUTH: "Auth",
   REGISTER: "Register",
+  ERROR: "Error",
+  BOOKING: "Booking",
+  TRIP: "Trip",
 };
 
 export const SIZES = {

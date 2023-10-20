@@ -16,14 +16,20 @@ interface FormWrapperProps {
   data: IFormData[];
   onSubmit: (data: any) => void;
   loading?: boolean;
+  submitAction?: string;
 }
 
 const FormWrapper = (props: FormWrapperProps) => {
   const {
+    reset,
     control,
     handleSubmit,
     formState: { errors },
   } = useForm({});
+
+  const handleReset = () => {
+    reset();
+  };
 
   const renderInputFields = () => {
     return props.data.map((field, i) => {
@@ -65,7 +71,6 @@ const FormWrapper = (props: FormWrapperProps) => {
       style={{
         width: "100%",
         flexDirection: "column",
-        paddingBottom: 200,
       }}
     >
       {renderInputFields()}
@@ -76,9 +81,12 @@ const FormWrapper = (props: FormWrapperProps) => {
         }}
         loading={props.loading}
         primary
-        onPress={handleSubmit(props.onSubmit)}
+        onPress={handleSubmit((data) => {
+          props.onSubmit(data);
+          handleReset();
+        })}
       >
-        Submit
+        {props.submitAction ?? "Submit"}
       </ButtonWrapper>
     </View>
   );

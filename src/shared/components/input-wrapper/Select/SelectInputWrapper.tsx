@@ -8,41 +8,40 @@ const SelectInputWrapper = (props: InputProps) => {
 
   const renderOptions = () =>
     props.options?.map(({ label, value }, i) => {
-      return <Select.Item label={label} value={value} key={i}></Select.Item>;
+      return <Select.Item label={label} value={value} key={i} />;
     });
 
   return (
-    // <Container minWidth="100%">
-    //   <FormControl isRequired isInvalid>
-    //     <FormControl.Label>{props.label}</FormControl.Label>
-
-    //   </FormControl>
-    //   <HStack mt={3} alignItems="baseline">
-    //     <Text fontSize="md">Selected Values: </Text>
-    //     <Text fontSize="md" bold>
-    //       {value}
-    //     </Text>
-    //   </HStack>
-    // </Container>
-    <Select
-      selectedValue={value}
-      minWidth={200}
-      minHeight={10}
-      accessibilityLabel={props.options ? props.options[0].label : ""}
-      placeholder={props.placeholder}
-      onValueChange={(itemValue) => {
-        setValue(itemValue);
-        props.onChange();
-      }}
-      _selectedItem={{
-        bg: "teal.600",
-        endIcon: <FontAwesomeIcon size={2} icon={faAngleDown} />,
-      }}
-      mt={1}
-      {...props}
-    >
-      {renderOptions()}
-    </Select>
+    <Container minWidth="100%">
+      <FormControl isRequired>
+        <FormControl.Label>{props.label}</FormControl.Label>
+        <Select
+          selectedValue={value}
+          minWidth={200}
+          minHeight={10}
+          accessibilityLabel={props.options ? props.options[0].label : ""}
+          placeholder={props.placeholder}
+          onValueChange={(itemValue) => {
+            setValue(itemValue);
+            props.onChange(itemValue);
+          }}
+          _selectedItem={{
+            bg: "teal.600",
+            endIcon: <FontAwesomeIcon size={2} icon={faAngleDown} />,
+          }}
+          mt={1}
+          {...props}
+        >
+          {renderOptions()}
+        </Select>
+      </FormControl>
+      <HStack mt={3} alignItems="baseline">
+        <Text fontSize="md">Selected Values: </Text>
+        <Text fontSize="md" bold>
+          {value}
+        </Text>
+      </HStack>
+    </Container>
   );
 };
 export default SelectInputWrapper;

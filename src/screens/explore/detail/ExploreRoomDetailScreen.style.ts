@@ -8,7 +8,6 @@ export default () => {
   return StyleSheet.create<Style>({
     container: {
       flex: 1,
-      marginHorizontal: 20,
     },
   });
 };
