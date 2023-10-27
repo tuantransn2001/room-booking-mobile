@@ -4,7 +4,6 @@ export const SCREENS = {
   EXPLORE: "Explore",
   EXPLORE_DETAIL: "ExploreDetail",
   WISHLISTS: "Wishlists",
-  TRIPS: "Trips",
   INBOX: "Inbox",
   PROFILE: "Profile",
   ON_BOARD: "OnBoard",
@@ -13,6 +12,7 @@ export const SCREENS = {
   ERROR: "Error",
   BOOKING: "Booking",
   TRIP: "Trip",
+  RESERVATION: "Reservation",
 };
 
 export const SIZES = {

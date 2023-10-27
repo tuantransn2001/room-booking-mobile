@@ -9,4 +9,8 @@ export interface ICardWrapper {
     title: string;
     contents: string[];
   };
+  badge?: string;
+  primary?: boolean;
+  secondPrimary?: boolean;
+  ternary?: boolean;
 }

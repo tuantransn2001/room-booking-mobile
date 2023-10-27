@@ -2,14 +2,18 @@ import React from "react";
 import { Input } from "@ui-kitten/components";
 import { InputProps } from "../InputWrapper.interface";
 
-const TextInputWrapper = (props: InputProps): React.ReactElement => (
+const TextInputWrapper = ({
+  onChange,
+  ...rest
+}: InputProps): React.ReactElement => (
   <Input
     style={{
       width: "100%",
+      position: "relative",
     }}
     autoCapitalize="none"
-    {...props}
-    onChangeText={props.onChange}
+    {...rest}
+    onChangeText={onChange}
   />
 );
 

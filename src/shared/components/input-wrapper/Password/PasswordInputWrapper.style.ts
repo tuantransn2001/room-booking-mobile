@@ -13,7 +13,6 @@ export default () => {
       alignItems: "center",
     },
     captionText: {
-      fontSize: 12,
       fontWeight: "400",
       color: "#8F9BB3",
     },

@@ -1,3 +1,4 @@
+import { ViewStyle } from "react-native";
 import { InputType } from "./FormWrapper.enum";
 
 export interface IFormData {
@@ -12,4 +13,5 @@ export interface IFormData {
     value: string;
   }[];
   rules?: Record<string, string | boolean>;
+  style?: ViewStyle;
 }

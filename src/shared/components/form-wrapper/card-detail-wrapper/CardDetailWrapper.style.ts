@@ -3,7 +3,5 @@ interface Style {
   container: ViewStyle;
 }
 export default () => {
-  return StyleSheet.create<Style>({
-    container: { flex: 1, marginHorizontal: 20 },
-  });
+  return StyleSheet.create<Style>({ container: { flex: 1 } });
 };

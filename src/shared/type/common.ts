@@ -11,3 +11,5 @@ export type NavigationRouteProps<T> = {
 export type ObjectLiteral = Record<string, any>;
 
 export type CallBackFunction = () => void;
+
+export type Falsy = undefined | null;

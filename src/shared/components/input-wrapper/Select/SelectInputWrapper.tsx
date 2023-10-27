@@ -1,8 +1,9 @@
 import React from "react";
-import { Container, FormControl, HStack, Select, Text } from "native-base";
+import { Container, FormControl, HStack, Select } from "native-base";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { InputProps } from "../InputWrapper.interface";
+import TextWrapper from "@shared-components/text-wrapper/TextWrapper";
 const SelectInputWrapper = (props: InputProps) => {
   const [value, setValue] = React.useState("");
 
@@ -12,9 +13,11 @@ const SelectInputWrapper = (props: InputProps) => {
     });
 
   return (
-    <Container minWidth="100%">
+    <Container marginTop={6} minWidth="100%">
       <FormControl isRequired>
-        <FormControl.Label>{props.label}</FormControl.Label>
+        <TextWrapper h5 bold>
+          {props.label}
+        </TextWrapper>
         <Select
           selectedValue={value}
           minWidth={200}
@@ -35,11 +38,11 @@ const SelectInputWrapper = (props: InputProps) => {
           {renderOptions()}
         </Select>
       </FormControl>
-      <HStack mt={3} alignItems="baseline">
-        <Text fontSize="md">Selected Values: </Text>
-        <Text fontSize="md" bold>
+      <HStack mt={2} alignItems="baseline">
+        <TextWrapper h5>Selected Values: </TextWrapper>
+        <TextWrapper h5 bold>
           {value}
-        </Text>
+        </TextWrapper>
       </HStack>
     </Container>
   );

@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 import image1 from "assets/rooms/1.webp";
 import image2 from "assets/rooms/2.webp";
 export const cards = [
@@ -65,3 +66,7 @@ export const cards = [
     },
   },
 ];
+export const categoriesMock = new Array(20).map((_, index) => ({
+  id: index,
+  categoryName: "Home" + ` ${index}`,
+}));

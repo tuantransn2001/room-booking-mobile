@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { useColorScheme } from "react-native";
 import Icon, { IconType } from "react-native-dynamic-vector-icons";
@@ -21,8 +22,9 @@ import ExploreScreen from "@screens/explore/ExploreScreen";
 import ExploreRoomDetailDetailScreen from "@screens/explore/detail/ExploreRoomDetailScreen";
 import ErrorScreen from "@screens/error/ErrorScreen";
 import BookingScreen from "@screens/booking/BookingScreen";
-import LaunchScreen from "@screens/launch/LaunchScreen";
 import StripScreen from "@screens/trip/TripScreen";
+import ReservationScreen from "@screens/trip/reservation/ReservationScreen";
+import LaunchScreen from "@screens/launch/LaunchScreen";
 // ? If you want to use stack or tab or both
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -89,9 +91,14 @@ const Navigation = () => {
         <Tab.Screen
           name={SCREENS.EXPLORE}
           component={
-            LaunchScreen
+            // ReservationScreen
+            // StripScreen
+            // LaunchScreen
             // BookingScreen
+            // PlaygroundScreen
             // () => <ErrorScreen statusCode={400} />
+            AuthScreen
+            // ExploreRoomDetailDetailScreen
           }
         />
         <Tab.Screen name={SCREENS.TRIP} component={StripScreen} />
@@ -112,6 +119,10 @@ const Navigation = () => {
     >
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name={SCREENS.HOME} component={TabNavigation} />
+        <Stack.Screen
+          name={SCREENS.RESERVATION}
+          component={ReservationScreen}
+        />
         <Stack.Screen name={SCREENS.ON_BOARD} component={OnBoardScreen} />
         <Stack.Screen name={SCREENS.TRIP} component={StripScreen} />
         <Stack.Screen name={SCREENS.AUTH} component={AuthScreen} />

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/extensions */
 import React from "react";
 import { IFormData } from "@shared-components/form-wrapper/shared/FormWrapper.interface";
@@ -59,8 +60,24 @@ const Register = ({ setVisible, showToast }: RegisterProps) => {
         caption: "This shouldn't be empty",
         options: [
           {
-            value: "Brazil",
-            label: "Bra",
+            label: "Brazil",
+            value: "Bra",
+          },
+          {
+            label: "United State",
+            value: "Us",
+          },
+          {
+            label: "Canada",
+            value: "Ca",
+          },
+          {
+            label: "Mexico",
+            value: "Mex",
+          },
+          {
+            label: "VietNam",
+            value: "Vn",
           },
         ],
         type: InputType.SELECT,

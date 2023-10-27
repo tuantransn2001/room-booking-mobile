@@ -27,8 +27,6 @@ const ActionSheetWrapper = ({
         size="full"
         style={{
           width: "100%",
-
-          paddingBottom: 20,
           zIndex: 999,
         }}
       >
@@ -45,7 +43,7 @@ const ActionSheetWrapper = ({
               <Pressable onPress={onClose}>
                 <FontAwesomeIcon icon={faXmark} />
               </Pressable>
-              <TextWrapper h4 bold color={COLORS.BLACK}>
+              <TextWrapper h3 bold color={COLORS.BLACK}>
                 {title}
               </TextWrapper>
             </View>

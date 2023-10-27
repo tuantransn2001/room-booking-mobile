@@ -45,6 +45,7 @@ const renderScrollViewNavigation = (
     faTree,
     faDumbbell,
   ];
+
   return (
     <ScrollView
       style={{
@@ -68,7 +69,7 @@ const renderScrollViewNavigation = (
           >
             <FontAwesomeIcon
               size={20}
-              icon={navigations[id as number]}
+              icon={navigations[index as number]}
               color={COLORS.BLACK}
             />
             <TextWrapper
@@ -87,10 +88,16 @@ const renderScrollViewNavigation = (
 };
 
 const Hotels = () => {
-  const { loading, data } = useQuery(GET_HOTELS);
+  const [pageNumber] = React.useState<number>(1);
+  const { loading, data } = useQuery(GET_HOTELS, {
+    variables: {
+      page_number: pageNumber,
+      page_size: 10,
+      search: "",
+    },
+  });
   if (loading || !data) return <TextWrapper>Loading</TextWrapper>;
-
-  const cardData: ICardWrapper[] = data.getHotels.map(
+  const cardData: ICardWrapper[] = data?.getHotels?.map(
     ({ id, hotelName }: { [key: string]: string | number }) => ({
       id,
       loading,
@@ -107,6 +114,9 @@ const Hotels = () => {
     <ScrollView>
       {cardData.map((card, i) => (
         <Pressable
+          style={{
+            marginBottom: 20,
+          }}
           onPress={() =>
             handleNavigate(SCREENS.EXPLORE_DETAIL, { id: card.id })
           }
@@ -127,6 +137,7 @@ const ExploreScreen: React.FC<ExploreScreenProps> = () => {
 
   return (
     <RootLayout>
+      {/* <InfinityScroll /> */}
       <SafeAreaView style={styles.container}>
         {/* Top search */}
         <View

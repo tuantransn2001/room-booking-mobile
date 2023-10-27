@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { PropsWithChildren } from "react";
 import { Button } from "@ui-kitten/components";
 import createStyles from "./ButtonWrapper.style";
@@ -7,7 +8,7 @@ import { COLORS } from "@shared-constants";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import LoadingIndicator from "@shared-components/loading-wrapper/LoadingWrapper";
-import { Appearance } from "./enum/style.enum";
+import { Appearance, Size } from "./enum/style.enum";
 interface ButtonWrapperProps extends PropsWithChildren {
   primary?: boolean;
   link?: boolean;
@@ -34,7 +35,7 @@ export const ButtonWrapper = ({
   StartIcon,
   children,
   loading,
-  style,
+  style: customStyle,
   link,
   onPress,
   onPressOut,
@@ -42,49 +43,42 @@ export const ButtonWrapper = ({
 }: ButtonWrapperProps) => {
   const styles = React.useMemo(() => createStyles(), []);
   let textColor = COLORS.WHITE;
+  let commonStyle = styles.common;
 
   // ? Primary
   if (primary) {
-    styles.common = { ...styles.common, ...styles.primary };
+    commonStyle = { ...commonStyle, ...styles.primary };
   }
 
   // ? Full width or small
   if (maxWidth) {
-    styles.common = { ...styles.common, ...styles.fullWidth };
+    commonStyle = { ...commonStyle, ...styles.fullWidth };
   }
 
   // ? Second primary
   if (secondPrimary) {
-    styles.common = { ...styles.common, ...styles.secondPrimary };
+    commonStyle = { ...commonStyle, ...styles.secondPrimary };
   }
 
   // ? Tertiary
   if (tertiary) {
-    styles.common = {
-      ...styles.common,
-      ...styles.tertiary,
-    };
-
+    commonStyle = { ...commonStyle, ...styles.tertiary };
     textColor = COLORS.BLACK;
   }
   // ? Link
   if (link) {
-    styles.common = {
-      ...styles.common,
-      ...styles.link,
-    };
+    commonStyle = { ...commonStyle, ...styles.link };
     textColor = COLORS.BLACK;
   }
 
   // ? Ghost
   if (ghost) {
-    styles.common = { ...styles.common, ...styles.ghost };
     textColor = COLORS.BLACK;
   }
 
   // ? Disabled
   if (disabled) {
-    styles.common = { ...styles.common, ...styles.disabled };
+    commonStyle = { ...commonStyle, ...styles.disabled };
     textColor = COLORS.WHITE;
   }
 
@@ -105,13 +99,13 @@ export const ButtonWrapper = ({
       disabled={disabled}
       accessoryLeft={renderStartIcon()}
       appearance={Appearance.filled}
-      size="medium"
-      style={{ ...styles.common, ...style }}
+      size={Size.medium}
+      style={{ ...commonStyle, ...customStyle }}
       onPressOut={onPressOut}
       {...rest}
     >
       {children ? (
-        <TextWrapper color={textColor} style={styles.textDefault}>
+        <TextWrapper color={textColor} center style={styles.textDefault}>
           {children}
         </TextWrapper>
       ) : (

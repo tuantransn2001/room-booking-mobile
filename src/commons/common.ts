@@ -1,7 +1,7 @@
 import * as randomstring from "randomstring";
-import { ObjectLiteral } from "shared/type/common";
+import { Falsy, ObjectLiteral } from "shared/type/common";
 
-export const isEmpty = (target: ObjectLiteral | any[]): boolean => {
+export const isEmpty = (target: ObjectLiteral | any[] | Falsy): boolean => {
   if (!target) return false;
 
   if (target instanceof Array) return target.length === 0;

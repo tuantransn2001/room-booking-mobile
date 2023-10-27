@@ -1,13 +1,21 @@
 /* eslint-disable import/extensions */
 import React, { PropsWithChildren } from "react";
 import createStyles from "./CardWrapper.style";
-import { Image, View } from "react-native";
+import { Image, Pressable, View } from "react-native";
 import { Layout, ViewPager } from "@ui-kitten/components";
 import ContentLoader, { Rect, Circle } from "react-content-loader/native";
 import TextWrapper from "@shared-components/text-wrapper/TextWrapper";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHeart,
+  faMedal,
+  faStarHalfAlt,
+  faStarHalfStroke,
+} from "@fortawesome/free-solid-svg-icons";
 import { ICardWrapper } from "./shared/CardWrapper.interface";
+import { Badge, Box, Divider, Flex, HStack } from "native-base";
+import { COLORS } from "@shared-constants";
+import { handleFormatDay } from "utils";
 
 interface CardWrapperProps extends ICardWrapper, PropsWithChildren {}
 
@@ -32,12 +40,149 @@ const CardLoader = () => (
 export const CardWrapper = (props: CardWrapperProps) => {
   const styles = React.useMemo(() => createStyles(), []);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
+
+  const renderContents = () => {
+    if (props.primary) {
+      // ? render full
+      return <TextWrapper>primary</TextWrapper>;
+    }
+    if (props.secondPrimary) {
+      // ? render slider only
+      return (
+        <Box alignItems="center">
+          <Box w="100%">
+            <View>
+              <TextWrapper>{props.body.title}</TextWrapper>
+              <TextWrapper>
+                Private room hosted in home hosted by US
+              </TextWrapper>
+            </View>
+            <Divider
+              my="1"
+              _light={{
+                bg: "muted.800",
+              }}
+              _dark={{
+                bg: "muted.50",
+              }}
+            />
+            <Flex mx="3" direction="row" justify="space-evenly" h="60">
+              <TextWrapper>{handleFormatDay(new Date())}</TextWrapper>
+              <Divider
+                orientation="vertical"
+                mx="3"
+                _light={{
+                  bg: "muted.800",
+                }}
+                _dark={{
+                  bg: "muted.50",
+                }}
+              />
+              <View>
+                <TextWrapper>Greater Manchester</TextWrapper>
+                <TextWrapper>United Kingdom</TextWrapper>
+              </View>
+            </Flex>
+          </Box>
+        </Box>
+      );
+    }
+
+    if (props.ternary) {
+      // ? full size tile
+
+      return (
+        <Box alignItems="center">
+          <Box w="100%">
+            <View
+              style={{
+                flexDirection: "column",
+                gap: 8,
+              }}
+            >
+              <TextWrapper h4 bold>
+                {props.body.title}
+              </TextWrapper>
+
+              <View>
+                <TextWrapper>
+                  <FontAwesomeIcon icon={faStarHalfStroke} /> 4.76 - 28 reviewer
+                  - <FontAwesomeIcon icon={faMedal} /> Superhost {"\n"}
+                  <TextWrapper>
+                    Greater Manchester,England,United Kingdom
+                  </TextWrapper>
+                </TextWrapper>
+              </View>
+            </View>
+          </Box>
+        </Box>
+      );
+    }
+
+    return (
+      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <View
+          style={{
+            flexDirection: "column",
+            gap: 6,
+          }}
+        >
+          <TextWrapper bold h4>
+            {props.body.title}
+          </TextWrapper>
+
+          {props.body.contents.map((content, i) => (
+            <TextWrapper h5 key={i}>
+              {content}
+            </TextWrapper>
+          ))}
+        </View>
+
+        <View>
+          <FontAwesomeIcon icon={faStarHalfAlt} />
+          <TextWrapper>4.76</TextWrapper>
+        </View>
+      </View>
+    );
+  };
+
+  const renderBadge = () => {
+    if (!props.badge) return <React.Fragment />;
+
+    return (
+      <HStack
+        style={{
+          position: "absolute",
+          top: 18,
+          left: 18,
+          zIndex: 999,
+          borderRadius: 12,
+          backgroundColor: COLORS.WHITE,
+        }}
+        space={{
+          base: 2,
+          sm: 4,
+        }}
+        mx={{
+          base: "auto",
+          md: 0,
+        }}
+      >
+        <Badge colorScheme="coolGray">
+          <TextWrapper bold h5>
+            {props.badge}
+          </TextWrapper>
+        </Badge>
+      </HStack>
+    );
+  };
+
   return (
-    <View style={styles.container}>
+    <>
       {props.loading ? (
         <CardLoader />
       ) : (
-        <>
+        <View style={styles.container}>
           <View
             style={{
               width: "100%",
@@ -45,8 +190,33 @@ export const CardWrapper = (props: CardWrapperProps) => {
               backgroundColor: "#333333",
               borderRadius: 12,
               overflow: "hidden",
+              shadowColor: "#000000",
             }}
           >
+            {renderBadge()}
+
+            <View
+              style={{
+                position: "absolute",
+                top: 18,
+                right: 18,
+                zIndex: 999,
+                backgroundColor: COLORS.WHITE,
+                borderRadius: 20,
+                padding: 6,
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Pressable onPress={() => console.log("add to wishlist")}>
+                <FontAwesomeIcon
+                  size={12}
+                  color={COLORS.PRIMARY}
+                  icon={faHeart}
+                />
+              </Pressable>
+            </View>
             <ViewPager
               selectedIndex={selectedIndex}
               onSelect={(index) => setSelectedIndex(index)}
@@ -69,34 +239,10 @@ export const CardWrapper = (props: CardWrapperProps) => {
             </ViewPager>
           </View>
 
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <View
-              style={{
-                flexDirection: "column",
-                gap: 6,
-              }}
-            >
-              <TextWrapper bold h4>
-                {props.body.title}
-              </TextWrapper>
-
-              {props.body.contents.map((content, i) => (
-                <TextWrapper h5 key={i}>
-                  {content}
-                </TextWrapper>
-              ))}
-            </View>
-
-            <View>
-              <FontAwesomeIcon icon={faStarHalfAlt} />
-              <TextWrapper>4.76</TextWrapper>
-            </View>
-          </View>
-        </>
+          <View>{renderContents()}</View>
+        </View>
       )}
-    </View>
+    </>
   );
 };
 

@@ -8,9 +8,7 @@ export default () =>
   StyleSheet.create<Style>({
     container: {
       flexDirection: "column",
-      flexWrap: "wrap",
-      gap: 12,
-      marginBottom: 20,
+      gap: 20,
     },
     tab: {
       height: 192,

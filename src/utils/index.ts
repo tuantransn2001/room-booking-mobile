@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import moment from "moment";
 import * as NavigationServices from "react-navigation-helpers";
 
 export const handleNavigate = (href: string, params?: Record<string, any>) => {
@@ -27,12 +28,19 @@ export const extractToken = (tokens: string) => {
 };
 
 export const handleCalcRangeBetweenTwoDate = (
-  startDate: Date,
-  endDate: Date,
+  startDate: Date | string,
+  endDate: Date | string,
 ) => {
-  const timeDifference = endDate.getTime() - startDate.getTime();
+  const timeDifference =
+    new Date(endDate).getTime() - new Date(startDate).getTime();
 
   const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
 
   return daysDifference;
 };
+
+export const handleFormatDay = (date: Date) => {
+  return moment(date).format("dddd, MMMM Do YYYY");
+};
+
+

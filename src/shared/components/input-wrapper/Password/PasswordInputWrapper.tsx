@@ -25,6 +25,10 @@ const InputWithPassword = (props: InputProps): React.ReactElement => {
 
   return (
     <Input
+      style={{
+        width: "100%",
+        height: 50,
+      }}
       autoCapitalize="none"
       caption={renderCaption}
       accessoryRight={

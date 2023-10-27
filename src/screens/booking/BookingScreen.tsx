@@ -1,6 +1,11 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react/prop-types */
 import React from "react";
-import { faAngleLeft, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleLeft,
+  faCalendarCheck,
+  faStarHalfAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import TextWrapper from "@shared-components/text-wrapper/TextWrapper";
 import createStyle from "./BookingScreen.style";
@@ -8,16 +13,18 @@ import { Image, Pressable, SafeAreaView, ScrollView, View } from "react-native";
 import { Layout, ViewPager } from "@ui-kitten/components";
 import { cards } from "@screens/explore/mocks/data";
 import { ButtonWrapper } from "@shared-components/button-wrapper/ButtonWrapper";
-import { COLORS, SCREENS } from "@shared-constants";
+import { COLORS } from "@shared-constants";
 import { Radio, Select } from "native-base";
 import DatePickerWrapper from "@shared-components/date-picker-wrapper/DatePickerWrapper";
 import ActionSheetWrapper from "@shared-components/action-sheet-wrapper/ActionSheetWrapper";
 import { useQuery } from "@apollo/client";
 import { GET_HOTEL_BY_ID } from "graphql/query/GetHotelbyId";
 import { NavigationRouteProps } from "shared/type/common";
-import { handleCalcRangeBetweenTwoDate, handleNavigate } from "utils";
+import { handleCalcRangeBetweenTwoDate } from "utils";
 import Confirm from "./confirm/Confirm";
-import Section from "./section/Section";
+import SectionWrapper from "../../shared/components/section-wrapper/SectionWrapper";
+import Payment from "./payment/Payment";
+import RequiredYourTrip from "./requiredYourTrip/RequiredYourTrip";
 
 interface BookingScreenProps extends NavigationRouteProps<BookingScreenProps> {
   id?: number;
@@ -32,20 +39,20 @@ const BookingScreen = (props: BookingScreenProps) => {
   const [checkOut, pickCheckOut] = React.useState<Date>(new Date());
   const styles = React.useMemo(() => createStyle(), []);
 
-  if (!props.route?.params) {
-    handleNavigate(SCREENS.ERROR, {
-      statusCode: 500,
-    });
-  }
-
   const handleToggleVisible = () => setVisible(!visible);
   const onClose = () => setVisible(!visible);
 
   const { data, loading } = useQuery(GET_HOTEL_BY_ID, {
-    variables: { id: props.route?.params.id },
+    variables: {
+      id: 1,
+    },
   });
 
-  if (loading || !data) return <TextWrapper>Loading</TextWrapper>;
+  // if (!props.route?.params) {
+  //   handleNavigate(SCREENS.ERROR, {
+  //     statusCode: 500,
+  //   });
+  // }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -90,11 +97,11 @@ const BookingScreen = (props: BookingScreenProps) => {
               minWidth={200}
               minHeight={10}
               accessibilityLabel="Room"
-              placeholder={data.getHotelById.rooms[0].roomName ?? ""}
+              placeholder={data?.getHotelById.rooms[0].roomName ?? ""}
               onValueChange={(itemValue) => pickRoom(+itemValue)}
               mt={1}
             >
-              {data.getHotelById.rooms.map(
+              {data?.getHotelById.rooms.map(
                 ({
                   currentPrice,
                   roomName,
@@ -113,6 +120,7 @@ const BookingScreen = (props: BookingScreenProps) => {
           </View>
         </View>
       </ActionSheetWrapper>
+
       <ScrollView>
         <View
           style={{
@@ -181,7 +189,7 @@ const BookingScreen = (props: BookingScreenProps) => {
             </View>
           </View>
         </View>
-        <Section title="Your trip">
+        <SectionWrapper title="Your trip">
           <View
             style={{
               flexDirection: "row",
@@ -214,9 +222,9 @@ const BookingScreen = (props: BookingScreenProps) => {
               Edit
             </ButtonWrapper>
           </View>
-        </Section>
+        </SectionWrapper>
 
-        <Section title="Choose how to pay">
+        <SectionWrapper title="Choose how to pay">
           <Radio.Group
             style={{
               flexDirection: "column",
@@ -280,9 +288,9 @@ const BookingScreen = (props: BookingScreenProps) => {
               </Radio>
             </View>
           </Radio.Group>
-        </Section>
+        </SectionWrapper>
 
-        <Section title="Price details">
+        <SectionWrapper title="Price details">
           <View style={styles.row}>
             <TextWrapper h5>$196.57 USD x 5 nights</TextWrapper>
             <TextWrapper h5> $982.85 USD</TextWrapper>
@@ -309,7 +317,35 @@ const BookingScreen = (props: BookingScreenProps) => {
             <TextWrapper h4>Total(USD):</TextWrapper>
             <TextWrapper h4>$1,198.38</TextWrapper>
           </View>
-        </Section>
+        </SectionWrapper>
+
+        <Payment />
+
+        <RequiredYourTrip />
+
+        <SectionWrapper title="Cancellation policy">
+          <TextWrapper>
+            Free cancellation before 25 Otc.Cancel before check in on 25 Otc for
+            partial refund. Learn more
+          </TextWrapper>
+        </SectionWrapper>
+
+        <SectionWrapper>
+          <View
+            style={{ flexDirection: "row", alignItems: "flex-start", gap: 14 }}
+          >
+            <FontAwesomeIcon
+              color={COLORS.PRIMARY}
+              size={20}
+              icon={faCalendarCheck}
+            />
+            <TextWrapper h5 bold left>
+              Your reservation won't be accept confirm until {"\n"} the host
+              accept your request(withing 24 hours).You won't be charge until
+              then
+            </TextWrapper>
+          </View>
+        </SectionWrapper>
       </ScrollView>
       <Confirm
         people={people}

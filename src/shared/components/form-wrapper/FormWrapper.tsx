@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable import/extensions */
 import React from "react";
-import { View } from "react-native";
 import { Text } from "@ui-kitten/components";
 import { Controller, useForm } from "react-hook-form";
 import { IFormData } from "./shared/FormWrapper.interface";
@@ -11,7 +11,7 @@ import { InputProps } from "@shared-components/input-wrapper/InputWrapper.interf
 import InputWithPassword from "@shared-components/input-wrapper/Password/PasswordInputWrapper";
 import SelectInputWrapper from "@shared-components/input-wrapper/Select/SelectInputWrapper";
 import { ButtonWrapper } from "@shared-components/button-wrapper/ButtonWrapper";
-
+import { Box, HStack, VStack } from "native-base";
 interface FormWrapperProps {
   data: IFormData[];
   onSubmit: (data: any) => void;
@@ -25,7 +25,7 @@ const FormWrapper = (props: FormWrapperProps) => {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({});
+  } = useForm();
 
   const handleReset = () => {
     reset();
@@ -34,10 +34,7 @@ const FormWrapper = (props: FormWrapperProps) => {
   const renderInputFields = () => {
     return props.data.map((field, i) => {
       return (
-        <View
-          key={i}
-          style={{ marginBottom: i !== props.data.length - 1 ? 18 : 0 }}
-        >
+        <VStack w="100%" key={i} style={{ marginBottom: 12 }}>
           <Controller
             control={control}
             rules={{
@@ -51,6 +48,7 @@ const FormWrapper = (props: FormWrapperProps) => {
                 onBlur,
                 value,
               };
+
               if (field.type === InputType.PASSWORD)
                 return <InputWithPassword {...inputProps} />;
 
@@ -60,35 +58,38 @@ const FormWrapper = (props: FormWrapperProps) => {
               return <TextInputWrapper {...inputProps} />;
             }}
           />
-          {errors.email && <Text>{field.errorText}</Text>}
-        </View>
+          {errors["fieldName"] && <Text>{field.errorText}</Text>}
+        </VStack>
       );
     });
   };
 
   return (
-    <View
+    <Box
       style={{
         width: "100%",
         flexDirection: "column",
       }}
     >
-      {renderInputFields()}
+      <HStack flexDirection="column">{renderInputFields()}</HStack>
 
-      <ButtonWrapper
-        style={{
-          marginTop: 20,
-        }}
-        loading={props.loading}
-        primary
-        onPress={handleSubmit((data) => {
-          props.onSubmit(data);
-          handleReset();
-        })}
-      >
-        {props.submitAction ?? "Submit"}
-      </ButtonWrapper>
-    </View>
+      <HStack marginTop={4} minWidth={100}>
+        <ButtonWrapper
+          style={{
+            marginTop: 20,
+          }}
+          maxWidth
+          loading={props.loading}
+          primary
+          onPress={handleSubmit((data) => {
+            props.onSubmit(data);
+            handleReset();
+          })}
+        >
+          {props.submitAction ?? "Submit"}
+        </ButtonWrapper>
+      </HStack>
+    </Box>
   );
 };
 

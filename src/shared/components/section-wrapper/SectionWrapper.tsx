@@ -1,22 +1,24 @@
 import React, { PropsWithChildren } from "react";
-import createStyle from "../BookingScreen.style";
+import createStyle from "./SectionWrapper.style";
 import TextWrapper from "@shared-components/text-wrapper/TextWrapper";
 import { View } from "react-native";
 
 interface SectionProps extends PropsWithChildren {
-  title: string;
+  title?: string;
 }
 
-const Section = ({ title, children }: SectionProps) => {
+const SectionWrapper = ({ title, children }: SectionProps) => {
   const styles = React.useMemo(() => createStyle(), []);
   return (
     <View style={styles.section}>
-      <TextWrapper bold h4>
-        {title}
-      </TextWrapper>
+      {title && (
+        <TextWrapper bold h4>
+          {title}
+        </TextWrapper>
+      )}
       {children}
     </View>
   );
 };
 
-export default Section;
+export default SectionWrapper;

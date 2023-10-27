@@ -14,16 +14,17 @@ const AuthScreen = () => {
     // ? Director
   }
   const [visible, setVisible] = React.useState<boolean>(true);
-  const [isLogin, setIsLogin] = React.useState<boolean>(true);
+  const [isLogin, setIsLogin] = React.useState<boolean>(false);
 
   const handleToggleIsLogin = () => setIsLogin(!isLogin);
-
+  const handleToggleVisible = () => setVisible(!visible);
   const { showToast } = useToastWrapper();
 
   return (
     <SafeAreaView>
       <ActionSheetWrapper
         visible={visible}
+        onClose={handleToggleVisible}
         title={isLogin ? "Log in" : "Sign up"}
       >
         {isLogin ? (
