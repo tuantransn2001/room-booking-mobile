@@ -42,5 +42,3 @@ export const handleCalcRangeBetweenTwoDate = (
 export const handleFormatDay = (date: Date) => {
   return moment(date).format("dddd, MMMM Do YYYY");
 };
-
-
