@@ -7,3 +7,7 @@ android
 # Assets
 Assets
 assets
+# Evironment
+.env
+.env-development
+.env-production

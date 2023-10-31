@@ -1,7 +1,7 @@
 {
-  "name": "react-native-typescript-boilerplate",
+  "name": "room-booking-app",
   "version": "3.5.1",
-  "description": "React Native Template/Boilerplate for awesome applications, using Typescript with a lot of built-in ready features.",
+  "description": "Room booking app",
   "dependencies": {
     "@apollo/client": "^3.8.5",
     "@eva-design/eva": "^2.2.0",

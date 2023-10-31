@@ -11,8 +11,8 @@ import { RESERVATION } from "graphql/mutations/Reservation";
 import { ReservationResponse } from "gql/graphql";
 import { handleNavigate } from "utils";
 import { SCREENS } from "@shared-constants";
-import { useToastWrapper } from "hooks/useToastWrapper";
-import { IToastWrapper } from "hooks/shared/useToastWrapper.interface";
+import { useToastWrapper } from "hooks/toast/useToastWrapper";
+import { IToastWrapper } from "hooks/toast/shared/useToastWrapper.interface";
 import {
   Placement,
   Status,

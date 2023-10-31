@@ -20,7 +20,7 @@ const StripScreen = () => {
   const styles = React.useMemo(() => createStyle(), []);
   const { data, loading, error } = useQuery(GET_USER_RESERVATIONS_BY_ID, {
     variables: {
-      userId: 9,
+      userId: 5,
     },
   });
 
@@ -64,8 +64,12 @@ const StripScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <TextWrapper>Trips</TextWrapper>
-      {isEmpty(data) ? (
+      <View style={{ marginHorizontal: 20 }}>
+        <TextWrapper h1 bold>
+          Trips
+        </TextWrapper>
+      </View>
+      {isEmpty(data.getUserReservations) ? (
         <StripWithNoReservation />
       ) : (
         <View>

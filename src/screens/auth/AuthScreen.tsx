@@ -7,7 +7,7 @@ import { ButtonWrapper } from "@shared-components/button-wrapper/ButtonWrapper";
 import { faGolfBall } from "@fortawesome/free-solid-svg-icons";
 import ActionSheetWrapper from "@shared-components/action-sheet-wrapper/ActionSheetWrapper";
 import Register from "./register/Register";
-import { useToastWrapper } from "hooks/useToastWrapper";
+import { useToastWrapper } from "hooks/toast/useToastWrapper";
 const AuthScreen = () => {
   const isLoginSuccess = useUserStore(isLoginSuccessSelector);
   if (isLoginSuccess) {

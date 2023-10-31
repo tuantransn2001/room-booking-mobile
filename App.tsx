@@ -4,7 +4,7 @@ import React from "react";
 import { StatusBar, useColorScheme, LogBox } from "react-native";
 import SplashScreen from "react-native-splash-screen";
 import * as eva from "@eva-design/eva";
-import { ApplicationProvider } from "@ui-kitten/components";
+import { ApplicationProvider, ModalService } from "@ui-kitten/components";
 import { NativeBaseProvider } from "native-base";
 
 /**
@@ -12,7 +12,6 @@ import { NativeBaseProvider } from "native-base";
  */
 import Navigation from "./src/navigation";
 import { isAndroid } from "@freakycoder/react-native-helpers";
-import { ModalService } from "@ui-kitten/components";
 import { ApolloProvider } from "@apollo/client";
 import { client } from "apis/apolloClient";
 

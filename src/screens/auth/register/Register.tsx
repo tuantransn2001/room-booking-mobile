@@ -14,7 +14,7 @@ import { SetState } from "shared/type/common";
 import {
   IToastWrapper,
   ToastCallback,
-} from "hooks/shared/useToastWrapper.interface";
+} from "hooks/toast/shared/useToastWrapper.interface";
 import { Variant, Status } from "@shared-components/toast-wrapper/enum/enum";
 
 interface RegisterProps {

@@ -13,7 +13,7 @@ import { useUserStore } from "stores/userStore";
 import {
   IToastWrapper,
   ToastCallback,
-} from "hooks/shared/useToastWrapper.interface";
+} from "hooks/toast/shared/useToastWrapper.interface";
 import { Status, Variant } from "@shared-components/toast-wrapper/enum/enum";
 import { SetState } from "shared/type/common";
 import { handleNavigate } from "utils";

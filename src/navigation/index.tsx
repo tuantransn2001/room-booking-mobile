@@ -24,7 +24,6 @@ import ErrorScreen from "@screens/error/ErrorScreen";
 import BookingScreen from "@screens/booking/BookingScreen";
 import StripScreen from "@screens/trip/TripScreen";
 import ReservationScreen from "@screens/trip/reservation/ReservationScreen";
-import LaunchScreen from "@screens/launch/LaunchScreen";
 // ? If you want to use stack or tab or both
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -92,13 +91,13 @@ const Navigation = () => {
           name={SCREENS.EXPLORE}
           component={
             // ReservationScreen
-            // StripScreen
-            // LaunchScreen
+            StripScreen
             // BookingScreen
             // PlaygroundScreen
             // () => <ErrorScreen statusCode={400} />
-            AuthScreen
+            // AuthScreen
             // ExploreRoomDetailDetailScreen
+            // ReservationScreen
           }
         />
         <Tab.Screen name={SCREENS.TRIP} component={StripScreen} />
